@@ -5,6 +5,9 @@ const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
 
+
+
+
 dotenv.config();
 
 const app = express();
@@ -91,7 +94,7 @@ app.get("/", (req, res) => {
 });
 
 /* ================= START SERVER ================= */
-
+const db = mysql.createConnection(process.env.MYSQL_URL);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

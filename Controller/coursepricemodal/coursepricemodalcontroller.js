@@ -1,5 +1,6 @@
 const connection = require("../../Model/dbConnect");
 
+
 exports.getCoursePrice = (req, res) => {
     const { course_id } = req.params;
 
