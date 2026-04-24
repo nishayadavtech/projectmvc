@@ -21,7 +21,11 @@ module.exports = connection;
 
 
 
+const mysql = require("mysql2");
 
+const connection = mysql.createConnection(process.env.MYSQL_URL);
+
+module.exports = connection;
 
 
 

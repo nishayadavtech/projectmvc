@@ -98,14 +98,13 @@
 // app.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
 // });
-
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
-const mysql = require("mysql2"); // ✅ FIX 1 (added)
+const mysql = require("mysql2");
 
 dotenv.config();
 
@@ -114,12 +113,13 @@ const PORT = process.env.PORT || 5500;
 
 /* ================= MIDDLEWARE ================= */
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "http://localhost:3000",   // local testing
+    "https://studentmodule.vercel.app" // ✅ FIXED (https added)
+  ],
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -129,7 +129,6 @@ app.use(cookieParser());
 
 const db = mysql.createConnection(process.env.MYSQL_URL);
 
-// ✅ FIX 2 (added connect)
 db.connect((err) => {
   if (err) {
     console.log("DB Error:", err);
@@ -149,7 +148,7 @@ if (!fs.existsSync(uploadsPath)) {
 
 app.use("/uploads", express.static(uploadsPath));
 
-/* ================= 🔥 VIDEO UPLOAD ================= */
+/* ================= VIDEO UPLOAD ================= */
 
 const multer = require("multer");
 
@@ -171,7 +170,6 @@ app.post("/upload-video", upload.single("video"), (req, res) => {
     }
 
     res.json({
-      // ✅ FIX 3 (localhost removed)
       video_url: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`,
       video_name: req.file.originalname,
     });
