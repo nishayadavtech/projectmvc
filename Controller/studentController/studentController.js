@@ -56,16 +56,30 @@ const loginStudent = (req, res) => {
 };
 
 /* ================= GET ALL ================= */
+// const getAllStudents = (req, res) => {
+//   connection.query("SELECT * FROM student", (err, result) => {
+//     if (err) {
+//       return res.status(500).json({ message: "Error fetching students" });
+//     }
+
+//     res.json(result);
+//   });
+// };
+
+
 const getAllStudents = (req, res) => {
+  console.log("API HIT 🔥");
+
   connection.query("SELECT * FROM student", (err, result) => {
     if (err) {
-      return res.status(500).json({ message: "Error fetching students" });
+      console.log("DB ERROR ❌:", err);
+      return res.status(500).json(err);
     }
 
+    console.log("DATA ✅:", result);
     res.json(result);
   });
 };
-
 /* ================= GET SINGLE ================= */
 const getStudentById = (req, res) => {
   const { id } = req.params;
